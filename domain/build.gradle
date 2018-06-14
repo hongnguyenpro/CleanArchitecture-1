@@ -1,0 +1,17 @@
+apply plugin: 'java-library'
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.rx.rxjava
+    implementation deps.rx.jsr
+    implementation deps.rx.rxandroid
+    implementation deps.gson
+
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.support.test_runner
+}

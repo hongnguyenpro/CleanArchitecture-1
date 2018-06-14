@@ -1,0 +1,52 @@
+apply plugin: 'com.android.library'
+
+android {
+  compileSdkVersion 26
+
+
+
+  defaultConfig {
+    minSdkVersion 21
+    targetSdkVersion 26
+    versionCode 1
+    versionName "1.0"
+
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+}
+
+dependencies {
+
+  implementation project(':domain')
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+  implementation deps.room.runtime
+  annotationProcessor deps.room.compiler
+  implementation deps.room.rxjava2
+  implementation deps.rx.jsr
+  implementation deps.rx.rxjava
+  implementation deps.rx.rxandroid
+  implementation deps.retrofit.retrofit
+  implementation deps.retrofit.rxjava2
+  implementation deps.retrofit.gson
+  implementation deps.retrofit.okhttp3
+  implementation deps.support.support_annotations
+  implementation deps.dagger.support
+
+  testImplementation deps.room.testing
+  testImplementation deps.junit
+  testImplementation deps.mockito
+  testImplementation deps.support.test_runner
+}

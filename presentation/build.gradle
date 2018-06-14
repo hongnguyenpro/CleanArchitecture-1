@@ -1,0 +1,56 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.hieupham.absolutecleanarchitecture"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation project(':domain')
+    implementation project(':data')
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.support.appcompat
+    implementation deps.support.recyclerview
+    implementation deps.support.support_annotations
+    implementation deps.dagger.android
+    implementation deps.dagger.support
+    annotationProcessor deps.dagger.processor
+    annotationProcessor deps.dagger.compiler
+    implementation deps.butterKnife.butterKnife
+    annotationProcessor deps.butterKnife.compiler
+    implementation deps.rx.jsr
+    implementation deps.rx.rxjava
+    implementation deps.rx.rxandroid
+    implementation deps.arch.livedata
+    implementation deps.arch.runtime
+    annotationProcessor deps.arch.compiler
+    implementation deps.glide.glide
+    annotationProcessor deps.glide.compiler
+
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.support.test_espresso
+    testImplementation deps.support.test_runner
+    testImplementation deps.arch.core_testing
+
+}
