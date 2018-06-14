@@ -42,8 +42,12 @@ dependencies {
   implementation deps.retrofit.rxjava2
   implementation deps.retrofit.gson
   implementation deps.retrofit.okhttp3
+  implementation deps.retrofit.logging
   implementation deps.support.support_annotations
   implementation deps.dagger.support
+  implementation deps.dagger.android
+  annotationProcessor deps.dagger.processor
+  annotationProcessor deps.dagger.compiler
 
   testImplementation deps.room.testing
   testImplementation deps.junit

@@ -1,6 +1,5 @@
 package com.hieupham.data.source.remote.api.response;
 
-import android.support.annotation.VisibleForTesting;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.hieupham.data.model.AssetData;
@@ -8,7 +7,6 @@ import com.hieupham.data.model.BlockData;
 import com.hieupham.data.model.Mapable;
 import com.hieupham.data.model.TransactionData;
 import com.hieupham.domain.entity.CompositeTransaction;
-import com.hieupham.domain.entity.CompositeTransactions;
 
 /**
  * Created by hieupham on 6/2/18.
@@ -27,13 +25,6 @@ public class TransactionResponse implements Response, Mapable<CompositeTransacti
     private BlockData block;
 
     public TransactionResponse() {
-    }
-
-    @VisibleForTesting
-    public TransactionResponse(TransactionData transaction, AssetData asset, BlockData block) {
-        this.transaction = transaction;
-        this.asset = asset;
-        this.block = block;
     }
 
     public TransactionData getTransaction() {
@@ -60,13 +51,12 @@ public class TransactionResponse implements Response, Mapable<CompositeTransacti
         this.block = block;
     }
 
-    public CompositeTransactions toCompositeTransactions(){
-        CompositeTransactions compositeTransactions = new CompositeTransactions();
-        return compositeTransactions;
-    }
-
     @Override
     public CompositeTransaction map() {
-        return null;
+        CompositeTransaction result = new CompositeTransaction();
+        result.setTransaction(transaction.map());
+        result.setAsset(asset.map());
+        result.setBlock(block.map());
+        return result;
     }
 }

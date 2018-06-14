@@ -46,6 +46,8 @@ dependencies {
     annotationProcessor deps.arch.compiler
     implementation deps.glide.glide
     annotationProcessor deps.glide.compiler
+    implementation deps.gson
+    implementation deps.room.runtime
 
     testImplementation deps.junit
     testImplementation deps.mockito

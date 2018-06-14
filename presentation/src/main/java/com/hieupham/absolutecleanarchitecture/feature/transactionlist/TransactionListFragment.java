@@ -18,7 +18,6 @@ import com.hieupham.absolutecleanarchitecture.feature.Navigator;
 import com.hieupham.absolutecleanarchitecture.feature.transactiondetail.TransactionDetailFragment;
 import com.hieupham.absolutecleanarchitecture.model.CompositeTransactionModelView;
 import com.hieupham.absolutecleanarchitecture.utils.livedata.Resource;
-import com.hieupham.absolutecleanarchitecture.model.TransactionModelView;
 import com.hieupham.absolutecleanarchitecture.utils.widget.EndlessScrollListener;
 import java.util.List;
 import javax.inject.Inject;
@@ -77,7 +76,7 @@ public class TransactionListFragment extends BaseSupportFragment
         swipeLayout.setOnRefreshListener(this);
         swipeLayout.setColorSchemeResources(R.color.colorAccent);
 
-        if (recyclerTransaction.getItemDecorationAt(0) == null) {
+        if (recyclerTransaction.getItemDecorationCount() == 0) {
             recyclerTransaction.addItemDecoration(
                     new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         }
@@ -118,14 +117,14 @@ public class TransactionListFragment extends BaseSupportFragment
         viewModel.refreshTransactions();
     }
 
-    private Observer<Resource<List<TransactionModelView>>> observerNextTransactions() {
+    private Observer<Resource<List<CompositeTransactionModelView>>> observerNextTransactions() {
         return resource -> {
             progressBar.setVisibility(View.GONE);
             if (resource == null || resource.isEmpty()) return;
             if (resource.isSuccessful()) {
                 List<CompositeTransactionModelView> transactions = resource.data();
                 if (transactions.isEmpty()) {
-                    viewModel.nextTransactions();
+                    viewModel.getNextTransactions();
                     return;
                 }
                 adapter.addTransactions(transactions);
@@ -137,7 +136,7 @@ public class TransactionListFragment extends BaseSupportFragment
         };
     }
 
-    private Observer<Resource<List<TransactionModelView>>> observerLatestTransactions() {
+    private Observer<Resource<List<CompositeTransactionModelView>>> observerLatestTransactions() {
         return resource -> {
             swipeLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
@@ -153,7 +152,7 @@ public class TransactionListFragment extends BaseSupportFragment
         };
     }
 
-    private Observer<Resource<List<TransactionModelView>>> observerRefreshTransactions() {
+    private Observer<Resource<List<CompositeTransactionModelView>>> observerRefreshTransactions() {
         return resource -> {
             swipeLayout.setRefreshing(false);
             if (resource == null || resource.isEmpty()) return;

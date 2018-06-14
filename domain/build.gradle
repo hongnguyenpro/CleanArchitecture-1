@@ -6,10 +6,12 @@ targetCompatibility = "1.8"
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation deps.rx.rxjava
     implementation deps.rx.jsr
+    implementation deps.rx.rxjava
     implementation deps.rx.rxandroid
     implementation deps.gson
+    implementation deps.dagger.android
+    implementation deps.dagger.support
 
     testImplementation deps.junit
     testImplementation deps.mockito

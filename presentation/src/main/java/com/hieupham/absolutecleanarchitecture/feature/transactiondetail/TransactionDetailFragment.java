@@ -18,7 +18,6 @@ import com.hieupham.absolutecleanarchitecture.feature.BaseSupportFragment;
 import com.hieupham.absolutecleanarchitecture.feature.BaseViewModel;
 import com.hieupham.absolutecleanarchitecture.model.CompositeTransactionModelView;
 import com.hieupham.absolutecleanarchitecture.utils.livedata.Resource;
-import com.hieupham.absolutecleanarchitecture.model.TransactionModelView;
 import javax.inject.Inject;
 
 /**
@@ -115,7 +114,7 @@ public class TransactionDetailFragment extends BaseSupportFragment {
         textViewMetaData.setText(transaction.getMetadata());
     }
 
-    private Observer<Resource<TransactionModelView>> observerTransactionDetail() {
+    private Observer<Resource<CompositeTransactionModelView>> observerTransactionDetail() {
         return resource -> {
             progressBar.setVisibility(View.INVISIBLE);
             if (resource == null || resource.isEmpty()) return;

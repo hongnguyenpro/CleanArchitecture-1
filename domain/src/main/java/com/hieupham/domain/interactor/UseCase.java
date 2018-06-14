@@ -17,13 +17,19 @@ public abstract class UseCase<I extends UseCase.Input, O> {
         compositeDisposable.add(disposable);
     }
 
-    void dispose() {
+    public void dispose() {
         compositeDisposable.clear();
     }
 
     public static abstract class Input {
     }
 
-    public static abstract class EmptyInput extends Input {
+    public static class EmptyInput extends Input {
+
+        private EmptyInput(){}
+
+        public static EmptyInput instance(){
+            return new EmptyInput();
+        }
     }
 }

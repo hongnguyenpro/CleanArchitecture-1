@@ -1,11 +1,16 @@
 package com.hieupham.absolutecleanarchitecture.feature.transactionlist;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import com.hieupham.absolutecleanarchitecture.model.CompositeTransactionModelView;
+import com.hieupham.absolutecleanarchitecture.model.mapper.CompositeTransactionModelViewMapper;
 import com.hieupham.absolutecleanarchitecture.utils.common.Duration;
 import com.hieupham.absolutecleanarchitecture.utils.common.IntervalScheduler;
-import com.hieupham.absolutecleanarchitecture.utils.livedata.CompositeLiveData;
+import com.hieupham.absolutecleanarchitecture.utils.livedata.LiveDataObserver;
 import com.hieupham.absolutecleanarchitecture.utils.livedata.Resource;
+import com.hieupham.domain.entity.CompositeTransactions;
+import com.hieupham.domain.interactor.UseCase;
+import com.hieupham.domain.interactor.usecase.GetLatestTransactionsUseCase;
 import com.hieupham.domain.interactor.usecase.GetTransactionsUseCase;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -16,22 +21,23 @@ import java.util.concurrent.TimeUnit;
 
 public class TransactionListViewModel extends ViewModel {
 
-    private CompositeLiveData<Resource<List<CompositeTransactionModelView>>> liveNextTransactions =
-            new CompositeLiveData<>();
-    private CompositeLiveData<Resource<List<CompositeTransactionModelView>>>
-            liveLatestTransactions = new CompositeLiveData<>();
-    private CompositeLiveData<Resource<List<CompositeTransactionModelView>>>
-            liveRefreshTransactions = new CompositeLiveData<>();
+    private MutableLiveData<Resource<List<CompositeTransactionModelView>>> liveNextTransactions =
+            new MutableLiveData<>();
+    private MutableLiveData<Resource<List<CompositeTransactionModelView>>> liveLatestTransactions =
+            new MutableLiveData<>();
+    private MutableLiveData<Resource<List<CompositeTransactionModelView>>> liveRefreshTransactions =
+            new MutableLiveData<>();
+    private CompositeTransactionModelViewMapper mapper;
     private IntervalScheduler taskScheduler;
-    private Long blockHeight;
     private Long blockNumber;
 
-
     TransactionListViewModel(GetTransactionsUseCase getTransactionsUseCase,
-            IntervalScheduler taskScheduler) {
-        super(getTransactionsUseCase);
+            GetLatestTransactionsUseCase getLatestTransactionsUseCase,
+            IntervalScheduler taskScheduler, CompositeTransactionModelViewMapper mapper) {
+        super(getTransactionsUseCase, getLatestTransactionsUseCase);
         this.taskScheduler = taskScheduler;
         this.taskScheduler.observe(this);
+        this.mapper = mapper;
     }
 
     @Override
@@ -49,51 +55,46 @@ public class TransactionListViewModel extends ViewModel {
 
     @Override
     LiveData<Resource<List<CompositeTransactionModelView>>> nextTransactions() {
-        return liveNextTransactions.asLiveData();
+        return liveNextTransactions;
     }
 
     @Override
     LiveData<Resource<List<CompositeTransactionModelView>>> latestTransactions() {
-        return liveLatestTransactions.asLiveData();
+        return liveLatestTransactions;
     }
 
     @Override
     LiveData<Resource<List<CompositeTransactionModelView>>> refreshedTransactions() {
-        return liveRefreshTransactions.asLiveData();
+        return liveRefreshTransactions;
     }
 
     @Override
     void getNextTransactions() {
-        liveNextTransactions.addSource(liveGetTransactions());
+        if (blockNumber == null || blockNumber == 0) {
+            fetchLatestTransactions();
+        } else {
+            LiveDataObserver<CompositeTransactions, List<CompositeTransactionModelView>> output =
+                    LiveDataObserver.from(liveNextTransactions, mapper::transform);
+            GetTransactionsUseCase.Input input = GetTransactionsUseCase.Input.from(--blockNumber);
+            getTransactionsUseCase.execute(input, output);
+        }
     }
 
     @Override
     void refreshTransactions() {
-        liveRefreshTransactions.addAtomicSource(liveRefreshTransactions());
+        blockNumber = null;
+        fetchLatestTransactions();
     }
 
     @Override
     void fetchLatestTransactions() {
-        liveLatestTransactions.addAtomicSource(liveLatestTransactions());
+        LiveDataObserver<CompositeTransactions, List<CompositeTransactionModelView>> output =
+                LiveDataObserver.from(liveLatestTransactions, mapper::transform);
+        getLatestTransactionsUseCase.execute(UseCase.EmptyInput.instance(), output);
     }
 
     @Override
     public void onSchedule() {
         fetchLatestTransactions();
-    }
-
-    private LiveData<Resource<List<CompositeTransactionModelView>>> liveGetTransactions() {
-        return getTransactionsUseCase.getNextTransactions();
-    }
-
-    private LiveData<Resource<List<CompositeTransactionModelView>>> liveLatestTransactions() {
-        return getTransactionsUseCase.fetchLatestTransactions();
-    }
-
-    private LiveData<Resource<List<CompositeTransactionModelView>>> liveRefreshTransactions() {
-        blockNumber = null;
-        blockHeight = null;
-        GetTransactionsUseCase.Input input = GetTransactionsUseCase.Input.from(blockNumber);
-        return getTransactionsUseCase.refreshTransactions();
     }
 }

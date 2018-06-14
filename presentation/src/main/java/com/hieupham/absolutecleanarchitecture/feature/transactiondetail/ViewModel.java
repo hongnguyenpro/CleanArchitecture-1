@@ -21,4 +21,10 @@ public abstract class ViewModel extends BaseViewModel {
     abstract void getTransactionDetail(String id);
 
     abstract LiveData<Resource<CompositeTransactionModelView>> liveTransactionDetail();
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getTransactionUseCase.dispose();
+    }
 }

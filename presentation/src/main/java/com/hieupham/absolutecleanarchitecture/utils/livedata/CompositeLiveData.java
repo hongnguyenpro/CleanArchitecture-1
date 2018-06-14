@@ -2,7 +2,6 @@ package com.hieupham.absolutecleanarchitecture.utils.livedata;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.MutableLiveData;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,11 +32,7 @@ public class CompositeLiveData<T> {
         }
     }
 
-    public LiveData<T> asLiveData() {
-        return compositeLiveData;
-    }
-
-    public MutableLiveData<T> asMutableLiveData() {
+    public MediatorLiveData<T> asLiveData() {
         return compositeLiveData;
     }
 }

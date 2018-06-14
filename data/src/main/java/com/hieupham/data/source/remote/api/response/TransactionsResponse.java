@@ -7,7 +7,11 @@ import com.hieupham.data.model.AssetData;
 import com.hieupham.data.model.BlockData;
 import com.hieupham.data.model.Mapable;
 import com.hieupham.data.model.TransactionData;
+import com.hieupham.domain.entity.Asset;
+import com.hieupham.domain.entity.Block;
 import com.hieupham.domain.entity.CompositeTransactions;
+import com.hieupham.domain.entity.Transaction;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,6 +67,22 @@ public class TransactionsResponse implements Response, Mapable<CompositeTransact
 
     @Override
     public CompositeTransactions map() {
-        return null;
+        CompositeTransactions result = new CompositeTransactions();
+        List<Transaction> transactions = new ArrayList<>();
+        List<Asset> assets = new ArrayList<>();
+        List<Block> blocks = new ArrayList<>();
+        for (TransactionData transaction : this.transactions) {
+            transactions.add(transaction.map());
+        }
+        for (AssetData asset : this.assets) {
+            assets.add(asset.map());
+        }
+        for (BlockData block : this.blocks) {
+            blocks.add(block.map());
+        }
+        result.setTransactions(transactions);
+        result.setAssets(assets);
+        result.setBlocks(blocks);
+        return result;
     }
 }

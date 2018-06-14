@@ -5,6 +5,7 @@ import com.hieupham.domain.interactor.MaybeUseCase;
 import com.hieupham.domain.interactor.UseCase;
 import com.hieupham.domain.repository.TransactionRepository;
 import io.reactivex.Maybe;
+import javax.inject.Inject;
 
 /**
  * Created by hieupham on 6/13/18.
@@ -15,6 +16,7 @@ public class GetTransactionUseCase
 
     private TransactionRepository transactionRepo;
 
+    @Inject
     public GetTransactionUseCase(TransactionRepository transactionRepo) {
         this.transactionRepo = transactionRepo;
     }

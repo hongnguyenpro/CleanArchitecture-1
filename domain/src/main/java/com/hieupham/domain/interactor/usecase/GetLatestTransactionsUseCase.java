@@ -6,6 +6,7 @@ import com.hieupham.domain.interactor.UseCase;
 import com.hieupham.domain.repository.TransactionRepository;
 import io.reactivex.Maybe;
 import java.util.Objects;
+import javax.inject.Inject;
 
 /**
  * Created by hieupham on 6/14/18.
@@ -17,6 +18,7 @@ public class GetLatestTransactionsUseCase
     private TransactionRepository transactionRepo;
     private Long blockHeight;
 
+    @Inject
     public GetLatestTransactionsUseCase(TransactionRepository transactionRepo) {
         this.transactionRepo = transactionRepo;
     }
