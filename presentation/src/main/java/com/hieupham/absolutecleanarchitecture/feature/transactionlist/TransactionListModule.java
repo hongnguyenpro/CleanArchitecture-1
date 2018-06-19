@@ -5,9 +5,7 @@ import com.hieupham.absolutecleanarchitecture.feature.DialogManager;
 import com.hieupham.absolutecleanarchitecture.feature.Navigator;
 import com.hieupham.absolutecleanarchitecture.model.mapper.CompositeTransactionModelViewMapper;
 import com.hieupham.absolutecleanarchitecture.utils.common.IntervalScheduler;
-import com.hieupham.domain.interactor.usecase.GetLatestTransactionsUseCase;
 import com.hieupham.domain.interactor.usecase.GetTransactionsUseCase;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -21,10 +19,8 @@ public class TransactionListModule {
     @Provides
     @FragmentScope
     ViewModel provideViewModel(GetTransactionsUseCase getTransactionsUseCase,
-            GetLatestTransactionsUseCase getLatestTransactionsUseCase,
             IntervalScheduler intervalScheduler, CompositeTransactionModelViewMapper mapper) {
-        return new TransactionListViewModel(getTransactionsUseCase, getLatestTransactionsUseCase,
-                intervalScheduler, mapper);
+        return new TransactionListViewModel(getTransactionsUseCase, intervalScheduler, mapper);
     }
 
     @Provides

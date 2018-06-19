@@ -12,6 +12,13 @@ android {
     versionName "1.0"
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    javaCompileOptions {
+      annotationProcessorOptions {
+        arguments = ["room.schemaLocation":
+                         "$projectDir/schemas".toString()]
+      }
+    }
   }
 
   buildTypes {
@@ -19,6 +26,11 @@ android {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
+  }
+
+  sourceSets {
+    androidTest.assets.srcDirs +=
+        files("$projectDir/schemas".toString())
   }
 
   compileOptions {
@@ -49,8 +61,11 @@ dependencies {
   annotationProcessor deps.dagger.processor
   annotationProcessor deps.dagger.compiler
 
-  testImplementation deps.room.testing
+  androidTestImplementation deps.room.testing
+  androidTestImplementation deps.arch.core_testing
+  androidTestImplementation deps.support.test_runner
   testImplementation deps.junit
   testImplementation deps.mockito
   testImplementation deps.support.test_runner
+  testImplementation deps.arch.core_testing
 }

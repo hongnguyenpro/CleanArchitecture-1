@@ -2,7 +2,6 @@ package com.hieupham.data.source;
 
 import com.hieupham.data.source.local.TransactionLocalDataSource;
 import com.hieupham.data.source.remote.TransactionRemoteDataSource;
-import com.hieupham.data.source.remote.api.response.TransactionsResponse;
 import com.hieupham.data.utils.common.CommonUtils;
 import com.hieupham.domain.entity.CompositeTransaction;
 import com.hieupham.domain.entity.CompositeTransactions;
@@ -38,7 +37,7 @@ public class TransactionRepositoryImpl extends Repository implements Transaction
                     }
                     return Maybe.error(throwable);
                 })
-                .map(TransactionsResponse::map);
+                .map(mapper.map());
     }
 
     @Override

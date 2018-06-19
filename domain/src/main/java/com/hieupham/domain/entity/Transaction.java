@@ -1,5 +1,7 @@
 package com.hieupham.domain.entity;
 
+import android.support.annotation.VisibleForTesting;
+
 /**
  * Created by hieupham on 6/13/18.
  */
@@ -29,6 +31,27 @@ public class Transaction implements Entity {
     private String previousId;
 
     private String bitmarkId;
+
+    public Transaction() {
+    }
+
+    @VisibleForTesting
+    public Transaction(String id, String owner, String assetId, String head, String status,
+            long blockNumber, long blockOffset, long offset, String expiredAt, String payId,
+            String previousId, String bitmarkId) {
+        this.id = id;
+        this.owner = owner;
+        this.assetId = assetId;
+        this.head = head;
+        this.status = status;
+        this.blockNumber = blockNumber;
+        this.blockOffset = blockOffset;
+        this.offset = offset;
+        this.expiredAt = expiredAt;
+        this.payId = payId;
+        this.previousId = previousId;
+        this.bitmarkId = bitmarkId;
+    }
 
     public String getId() {
         return id;
@@ -124,5 +147,47 @@ public class Transaction implements Entity {
 
     public void setBitmarkId(String bitmarkId) {
         this.bitmarkId = bitmarkId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Transaction)) return false;
+
+        Transaction that = (Transaction) o;
+
+        if (blockNumber != that.blockNumber) return false;
+        if (blockOffset != that.blockOffset) return false;
+        if (offset != that.offset) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (owner != null ? !owner.equals(that.owner) : that.owner != null) return false;
+        if (assetId != null ? !assetId.equals(that.assetId) : that.assetId != null) return false;
+        if (head != null ? !head.equals(that.head) : that.head != null) return false;
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+        if (expiredAt != null ? !expiredAt.equals(that.expiredAt) : that.expiredAt != null) {
+            return false;
+        }
+        if (payId != null ? !payId.equals(that.payId) : that.payId != null) return false;
+        if (previousId != null ? !previousId.equals(that.previousId) : that.previousId != null) {
+            return false;
+        }
+        return bitmarkId != null ? bitmarkId.equals(that.bitmarkId) : that.bitmarkId == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (owner != null ? owner.hashCode() : 0);
+        result = 31 * result + (assetId != null ? assetId.hashCode() : 0);
+        result = 31 * result + (head != null ? head.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (int) (blockNumber ^ (blockNumber >>> 32));
+        result = 31 * result + (int) (blockOffset ^ (blockOffset >>> 32));
+        result = 31 * result + (int) (offset ^ (offset >>> 32));
+        result = 31 * result + (expiredAt != null ? expiredAt.hashCode() : 0);
+        result = 31 * result + (payId != null ? payId.hashCode() : 0);
+        result = 31 * result + (previousId != null ? previousId.hashCode() : 0);
+        result = 31 * result + (bitmarkId != null ? bitmarkId.hashCode() : 0);
+        return result;
     }
 }

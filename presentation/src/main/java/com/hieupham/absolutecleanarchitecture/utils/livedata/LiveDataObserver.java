@@ -14,17 +14,17 @@ import io.reactivex.annotations.NonNull;
 public class LiveDataObserver<T, R> extends Observer<T> {
 
     @NonNull
-    private MutableLiveData<Resource<R>> liveData = new MutableLiveData<>();
+    private MutableLiveData<Resource<R>> liveData;
 
     private Function<T, R> mapFunction;
 
-    private Handler mainHandler = new Handler(Looper.getMainLooper());
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     private LiveDataObserver() {
     }
 
-    public static <T, R> LiveDataObserver<T, R> from(MutableLiveData<Resource<R>> liveData,
-            Function<T, R> mapFunction) {
+    public static <T, R> LiveDataObserver<T, R> from(@NonNull MutableLiveData<Resource<R>> liveData,
+            @NonNull Function<T, R> mapFunction) {
         LiveDataObserver<T, R> observer = new LiveDataObserver<>();
         observer.liveData = liveData;
         observer.mapFunction = mapFunction;

@@ -1,5 +1,6 @@
 package com.hieupham.data.source.remote.api.response;
 
+import android.support.annotation.VisibleForTesting;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.hieupham.data.model.AssetData;
@@ -25,6 +26,13 @@ public class TransactionResponse implements Response, Mapable<CompositeTransacti
     private BlockData block;
 
     public TransactionResponse() {
+    }
+
+    @VisibleForTesting
+    public TransactionResponse(TransactionData transaction, AssetData asset, BlockData block) {
+        this.transaction = transaction;
+        this.asset = asset;
+        this.block = block;
     }
 
     public TransactionData getTransaction() {

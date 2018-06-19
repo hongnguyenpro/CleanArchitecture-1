@@ -51,8 +51,10 @@ dependencies {
 
     testImplementation deps.junit
     testImplementation deps.mockito
-    testImplementation deps.support.test_espresso
     testImplementation deps.support.test_runner
     testImplementation deps.arch.core_testing
+
+    androidTestImplementation deps.support.test_runner
+    androidTestImplementation deps.support.test_espresso
 
 }
