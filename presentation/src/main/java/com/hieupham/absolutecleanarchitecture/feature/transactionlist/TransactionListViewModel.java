@@ -69,7 +69,7 @@ public class TransactionListViewModel extends ViewModel {
     void getNextTransactions() {
         LiveDataObserver<CompositeTransactions, List<CompositeTransactionModelView>> output =
                 LiveDataObserver.from(liveNextTransactions, mapper::transform);
-        getTransactionsUseCase.execute(UseCase.EmptyInput.instance(), output);
+        getTransactionsUseCase.next().execute(UseCase.EmptyInput.instance(), output);
     }
 
     @Override

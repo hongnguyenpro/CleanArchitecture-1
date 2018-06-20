@@ -24,6 +24,11 @@ public class GetTransactionsUseCase
         this.transactionRepo = transactionRepo;
     }
 
+    public GetTransactionsUseCase next() {
+        --blockNumber;
+        return this;
+    }
+
     public GetTransactionsUseCase refresh() {
         blockHeight = null;
         blockNumber = null;
@@ -38,7 +43,7 @@ public class GetTransactionsUseCase
     @Override
     protected Maybe<CompositeTransactions> buildDataStream(EmptyInput input) {
         return blockHeight == null ? fetchLatestTransactions()
-                : blockNumber == null ? fetchLatestTransactions() : getNextTransactions();
+                : blockNumber == null ? fetchLatestTransactions() : getTransactions();
     }
 
     private Maybe<CompositeTransactions> fetchLatestTransactions() {
@@ -50,7 +55,7 @@ public class GetTransactionsUseCase
         });
     }
 
-    private Maybe<CompositeTransactions> getNextTransactions() {
-        return transactionRepo.getTransactions(--blockNumber);
+    private Maybe<CompositeTransactions> getTransactions() {
+        return transactionRepo.getTransactions(blockNumber);
     }
 }

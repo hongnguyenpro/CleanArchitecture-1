@@ -19,7 +19,7 @@ public class RepositoryModule {
 
     @Singleton
     @Provides
-    TransactionRepository provideTransactionkRepo(TransactionRemoteDataSource remoteDataSource,
+    TransactionRepository provideTransactionRepo(TransactionRemoteDataSource remoteDataSource,
             TransactionLocalDataSource localDataSource, Mapper mapper) {
         return new TransactionRepositoryImpl(remoteDataSource, localDataSource, mapper);
     }
