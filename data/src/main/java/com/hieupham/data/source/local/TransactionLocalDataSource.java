@@ -21,8 +21,8 @@ import javax.inject.Inject;
 public class TransactionLocalDataSource extends LocalDataSource {
 
     @Inject
-    TransactionLocalDataSource(DatabaseApi roomApi, SharedPrefApi sharedPrefApi) {
-        super(roomApi, sharedPrefApi);
+    TransactionLocalDataSource(DatabaseApi databaseApi, SharedPrefApi sharedPrefApi) {
+        super(databaseApi, sharedPrefApi);
     }
 
     public Maybe<TransactionsResponse> getTransactions(final long blockNumber, final int limit) {
